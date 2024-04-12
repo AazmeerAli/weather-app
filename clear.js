@@ -153,24 +153,33 @@ function defaultValues() {
     locationAPI.then(response => {
         return response.json()
     }).then(location => {
+        console.log(location)
+
+        let longitude = location.location.longitude
+        let latitude = location.location.latitude
+
+        console.log(longitude)
+        console.log(latitude)
 
         var defaultCity = location.city.name
         var defaultCountryCode = location.country.iso_code
 
-        let apikey2 = "5a080ba85d624f87a5c171743240904"
-        let timezoneAPI = fetch(`http://api.weatherapi.com/v1/timezone.json?key=${apikey2}&q=${defaultCity}`)
+        let apikey2 = "cb4599f2faa44c7795fc8fae7e819cac"
+        let timezoneAPI = fetch(`https://api.ipgeolocation.io/timezone?apiKey=${apikey2}&lat=${latitude}&long=${longitude}`)
 
         timezoneAPI.then(response => {
             return response.json()
         }).then(timezone => {
+            console.log(timezone)
 
-            var timeZone = timezone.location.tz_id
+            var timeZone = timezone.timezone
 
             let timeAPI = fetch(`http://worldtimeapi.org/api/timezone/${timeZone}`)
 
             timeAPI.then(response => {
                 return response.json()
             }).then(value => {
+                console.log(value)
 
                 let dayIndex = value.day_of_week
                 let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -206,6 +215,7 @@ function defaultValues() {
                 weatherAPI.then((response) => {
                     return response.json()
                 }).then((value) => {
+                    console.log(value)
 
                     loca.innerHTML = `<img src="svgs/Location.svg" alt=""> ${cityName}, ${defaultCountryCode}`
                     temp.innerHTML = `${((value.main.temp) - 273.15).toFixed(1) / 1} °C`
@@ -272,6 +282,7 @@ function defaultValues() {
                     DaysForecastAPI.then((response) => {
                         return response.json()
                     }).then((value) => {
+                        console.log(value)
 
                         getForecast(value, nextDayImg2, 1)
                         getForecast(value, nextDayImg3, 2)
@@ -371,6 +382,7 @@ input.addEventListener("keypress", (event) => {
                 weatherAPI.then((response) => {
                     return response.json()
                 }).then((value) => {
+                    console.log(value)
 
                     let countryCode = value.sys.country
                     countryCodeFunc(value)
