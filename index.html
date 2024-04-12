@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="utility.css">
+</head>
+
+<body>
+    <div class="container border-radius">
+        <div class= "card text-shadow border-radius">
+            <div class="day">Tuesday</div>
+            <div class="date">20 June, 2022</div>
+            <div class="location"><img class="" src="svgs/Location.svg" alt="">Mumbai, IN</div>
+            <div class="lower-sec">
+                <div class="icon"><img class="big-icon" src="svgs/Sun.svg" alt=""></div>
+                <div class="temperature">29 °C</div>
+                <div class="condition">Sunny</div>
+            </div>
+        </div>
+
+        <div class="box white-color">
+            <div class="preci bold">PRECIPITATION <span class="preci-val">0%</span></div>
+            <div class="humidity bold">HUMIDITY <span class="humidity-val">42%</span></div>
+            <div class="wind bold">WIND <span class="wind-val">3 km/h</span></div>
+            <div class="little-cards">
+                <div class="little-card-1 border-radius-2">
+                    <img class="little-card-1-img" src="svgs/Sun.svg" alt="">
+                    <div class="next-day next-day-1">Tue</div>
+                    <div class="next-day-temp next-day-temp-1">30 °C</div>
+                </div>
+                <div class="little-card-2 border-radius-2">
+                    <img class="little-card-2-img" src="svgs/cloudy.svg" alt="">
+                    <div class="next-day next-day-2">Wed</div>
+                    <div class="next-day-temp next-day-temp-2">22 °C</div>
+                </div>
+                <div class="little-card-3 border-radius-2">
+                    <img class="little-card-3-img" src="svgs/rain.svg" alt="">
+                    <div class="next-day next-day-3">Thu</div>
+                    <div class="next-day-temp next-day-temp-3">06 °C</div>
+                </div>
+                <div class="little-card-4 border-radius-2">
+                    <img class="little-card-4-img" src="svgs/haze.svg" alt="">
+                    <div class="next-day next-day-4">Fri</div>
+                    <div class="next-day-temp next-day-temp-4">26 °C</div>
+                </div>
+            </div>
+            <div class="input-location">
+                <input type="text" id="myInput" placeholder="" spellcheck="false">
+                <label for="myInput"><img class="" src="svgs/Location.svg" alt="">Change Location</label>
+            </div>
+        </div>
+    </div>
+    <!-- <script src="script.js"></script> -->
+    <script src="clear.js"></script>
+</body>
+
+</html>

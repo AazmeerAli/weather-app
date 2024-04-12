@@ -1,0 +1,32 @@
+.invert{
+    filter: invert(1);
+}
+
+.text-shadow{
+    text-shadow: 2px 0 2px grey;
+}
+
+.white-color{
+    color: #ffffff;
+}
+
+.bold{
+    font-weight: 700;
+}
+
+.border-radius{
+    border-radius: 15px;
+}
+
+.border-radius-2{
+    border-radius: 7px;
+}
+
+
+img{
+    filter: drop-shadow(0 0 1px white);
+}
+
+.error:focus{
+    border: 2px solid red;
+}
