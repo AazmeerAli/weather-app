@@ -5,7 +5,7 @@
     font-family: "Poppins";
     cursor: default;
     transition: 0.2s ease;
-
+    
 }
 
 *::selection{
@@ -25,6 +25,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 90vh;
+    /* max-height: 150vh; */
 }
 
 .container{

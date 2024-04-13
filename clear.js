@@ -1,5 +1,6 @@
 let period;
 function getAMPM(hour) {
+
     if (hour >= 6 && hour < 21) {
         period = 'PM';
 
@@ -9,6 +10,7 @@ function getAMPM(hour) {
     }
 
 }
+
 
 
 function getWeatherIcon(ImgPara, ValueFromAPI) {
@@ -47,6 +49,11 @@ function getWeatherIcon(ImgPara, ValueFromAPI) {
     }
 }
 
+
+
+
+
+
 let nextDayImg2 = document.querySelector(".little-card-2-img")
 let nextDayImg3 = document.querySelector(".little-card-3-img")
 let nextDayImg4 = document.querySelector(".little-card-4-img")
@@ -54,7 +61,13 @@ let nextDayImg4 = document.querySelector(".little-card-4-img")
 
 function getForecast(ValueOfAPI, ImgPara, DayNumber, DataComing) {
 
+
+
     let SimilarConditionFromData = ValueOfAPI.forecast.forecastday[DayNumber].day.condition.text
+
+
+
+
 
     function targetWords(sentence, targetConditionWords, ComingData) {
         ComingData = targetConditionWords[1]
@@ -66,6 +79,7 @@ function getForecast(ValueOfAPI, ImgPara, DayNumber, DataComing) {
     let TargetWordsSnow = ['snow', 'Snow']
     let TargetWordsClouds = ['clouds', 'Clouds', 'cloudy', 'Cloudy', 'cloud', 'Cloud']
     let TargetWordsFog = ['fog', 'Fog', 'foggy', 'Foggy']
+
 
     if (targetWords(SimilarConditionFromData, TargetWordsRain, DataComing) == true) {
         ImgPara.setAttribute("src", "svgs/rain.svg");
@@ -103,6 +117,9 @@ function getForecast(ValueOfAPI, ImgPara, DayNumber, DataComing) {
     else {
         ImgPara.setAttribute("src", "svgs/overcast.svg");
     }
+
+
+
 }
 
 function widthSet(ImgPara, ComingData) {
@@ -130,6 +147,7 @@ function widthSet(ImgPara, ComingData) {
 }
 
 
+
 function getForecastTemp(value, Tag, DayNumber) {
     Tag.innerHTML = `${(value.forecast.forecastday[DayNumber].day.avgtemp_c).toFixed(1) / 1} °C`
 }
@@ -148,38 +166,31 @@ function defaultValues() {
 
 
     let apikey = "bfe6b227068d490c85ba0ccd34cf543a"
-    let locationAPI = fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${apikey}`)      
+    let locationAPI = fetch(`https://api.geoapify.com/v1/ipinfo?apiKey=${apikey}`)
 
     locationAPI.then(response => {
         return response.json()
     }).then(location => {
-        console.log(location)
-
-        let longitude = location.location.longitude
-        let latitude = location.location.latitude
-
-        console.log(longitude)
-        console.log(latitude)
 
         var defaultCity = location.city.name
         var defaultCountryCode = location.country.iso_code
 
-        let apikey2 = "cb4599f2faa44c7795fc8fae7e819cac"
-        let timezoneAPI = fetch(`https://api.ipgeolocation.io/timezone?apiKey=${apikey2}&lat=${latitude}&long=${longitude}`)
+
+        let apikey2 = "5a080ba85d624f87a5c171743240904"
+        let timezoneAPI = fetch(`https://api.weatherapi.com/v1/timezone.json?key=${apikey2}&q=${defaultCity}`)
 
         timezoneAPI.then(response => {
             return response.json()
         }).then(timezone => {
-            console.log(timezone)
 
-            var timeZone = timezone.timezone
+            var timeZone = timezone.location.tz_id
 
-            let timeAPI = fetch(`http://worldtimeapi.org/api/timezone/${timeZone}`)
+
+            let timeAPI = fetch(`https://worldtimeapi.org/api/timezone/${timeZone}`)
 
             timeAPI.then(response => {
                 return response.json()
             }).then(value => {
-                console.log(value)
 
                 let dayIndex = value.day_of_week
                 let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -201,10 +212,10 @@ function defaultValues() {
                 day.innerHTML = newDay;
                 date.innerHTML = `${Today} ${Month}, ${year}`;
 
+
                 var dataString = defaultCity;
                 var cityRegex = /^([^(]+)/;
                 var matches = dataString.match(cityRegex);
-
                 if (matches) {
                     var cityName = matches[1].trim();
                 }
@@ -217,11 +228,14 @@ function defaultValues() {
                 }).then((value) => {
                     console.log(value)
 
+
                     loca.innerHTML = `<img src="svgs/Location.svg" alt=""> ${cityName}, ${defaultCountryCode}`
                     temp.innerHTML = `${((value.main.temp) - 273.15).toFixed(1) / 1} °C`
                     condition.innerHTML = value.weather[0].main
                     humidity.innerHTML = `${value.main.humidity}%`
                     wind.innerHTML = `${((value.wind.speed) * 3.6).toFixed(1)} km/h`
+
+
 
                     function widthSetOfIcon(ImgPara, ValueFromAPI) {
                         if (ValueFromAPI.weather[0].main == "Mist") {
@@ -238,35 +252,29 @@ function defaultValues() {
                     let nextDay3 = document.querySelector(".next-day-3")
                     let nextDay4 = document.querySelector(".next-day-4")
 
-                    let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    let dayIndex2 = dayIndex + 1
+                    let dayIndex3 = dayIndex + 2
+                    let dayIndex4 = dayIndex + 3
 
-                    let shortNewDay1 = weekdays[dayIndex];
-                    nextDay1.innerHTML = shortNewDay1;
+                    let daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-                    // dayIndex = 6
-                    var dayIndex2 = dayIndex + 1;
-                    var dayIndex3 = dayIndex + 2;
-                    var dayIndex4 = dayIndex + 3;
-
-                    if (dayIndex2 > 6) {
-                        dayIndex2 = dayIndex2 - 7;
-                    }
-                    else if (dayIndex3 > 6) {
-                        dayIndex3 = dayIndex3 - 7;
-                    }
-                    else if (dayIndex4 > 6) {
-                        dayIndex4 = dayIndex4 - 7;
+                    function getDayName(index) {
+                        return daysOfWeek[index % 7];
                     }
 
-                    let shortNewDay2 = weekdays[dayIndex2];
-                    let shortNewDay3 = weekdays[dayIndex3];
-                    let shortNewDay4 = weekdays[dayIndex4];
+                    let shortNewDay1 = getDayName(dayIndex);
+                    let shortNewDay2 = getDayName(dayIndex2);
+                    let shortNewDay3 = getDayName(dayIndex3);
+                    let shortNewDay4 = getDayName(dayIndex4);
 
-                    nextDay2.innerHTML = shortNewDay2;
-                    nextDay3.innerHTML = shortNewDay3;
-                    nextDay4.innerHTML = shortNewDay4;
+                    nextDay1.innerHTML = shortNewDay1
+                    nextDay2.innerHTML = shortNewDay2
+                    nextDay3.innerHTML = shortNewDay3
+                    nextDay4.innerHTML = shortNewDay4
 
                     let nextDayImg1 = document.querySelector(".little-card-1-img")
+
+
 
                     let ComingData = value.weather[0].main
 
@@ -277,12 +285,11 @@ function defaultValues() {
                     nextDayTemp1.innerHTML = `${((value.main.temp) - 273.15).toFixed(1) / 1} °C`
 
                     let apikey = "5a080ba85d624f87a5c171743240904"
-                    let DaysForecastAPI = fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apikey}&q=${defaultCity}&days=4&aqi=no&alerts=no`)
+                    let DaysForecastAPI = fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apikey}&q=${defaultCity}&days=4&aqi=no&alerts=no`)
 
                     DaysForecastAPI.then((response) => {
                         return response.json()
                     }).then((value) => {
-                        console.log(value)
 
                         getForecast(value, nextDayImg2, 1)
                         getForecast(value, nextDayImg3, 2)
@@ -318,6 +325,10 @@ defaultValues()
 
 
 
+
+
+
+
 var input = document.querySelector("#myInput")
 
 input.addEventListener("keypress", (event) => {
@@ -333,10 +344,14 @@ input.addEventListener("keypress", (event) => {
         var humidity = document.querySelector(".humidity-val")
         var wind = document.querySelector(".wind-val")
 
+
+
+
         var cityName = input.value;
 
+
         let apikey2 = "5a080ba85d624f87a5c171743240904"
-        let timezoneAPI = fetch(`http://api.weatherapi.com/v1/timezone.json?key=${apikey2}&q=${cityName}`)
+        let timezoneAPI = fetch(`https://api.weatherapi.com/v1/timezone.json?key=${apikey2}&q=${cityName}`)
 
         timezoneAPI.then(response => {
             return response.json()
@@ -344,17 +359,17 @@ input.addEventListener("keypress", (event) => {
 
             var timeZone = timezone.location.tz_id
 
+
             function countryCodeFunc(valueOfAPI) {
                 loca.innerHTML = `<img src="svgs/Location.svg" alt=""> ${timezone.location.name}, ${valueOfAPI.sys.country}`
 
             }
 
-            let timeAPI = fetch(`http://worldtimeapi.org/api/timezone/${timeZone}`)
+            let timeAPI = fetch(`https://worldtimeapi.org/api/timezone/${timeZone}`)
 
             timeAPI.then(response => {
                 return response.json()
             }).then(value => {
-                console.log(value)
 
                 let dayIndex = value.day_of_week
                 let daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -382,8 +397,6 @@ input.addEventListener("keypress", (event) => {
                 weatherAPI.then((response) => {
                     return response.json()
                 }).then((value) => {
-                    console.log(value)
-
                     let countryCode = value.sys.country
                     countryCodeFunc(value)
 
@@ -409,40 +422,28 @@ input.addEventListener("keypress", (event) => {
                     let nextDay3 = document.querySelector(".next-day-3")
                     let nextDay4 = document.querySelector(".next-day-4")
 
-                    let weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                    let dayIndex2 = dayIndex + 1
+                    let dayIndex3 = dayIndex + 2
+                    let dayIndex4 = dayIndex + 3
 
-                    let shortNewDay1 = weekdays[dayIndex];
-                    nextDay1.innerHTML = shortNewDay1;
+                    let daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-                    // dayIndex = 6
-                    var dayIndex2 = dayIndex + 1;
-                    var dayIndex3 = dayIndex + 2;
-                    var dayIndex4 = dayIndex + 3;
-
-                    if (dayIndex2 > 6) {
-                        dayIndex2 = dayIndex2 - 7;
-                    }
-                    else if (dayIndex3 > 6) {
-                        dayIndex3 = dayIndex3 - 7;
-                    }
-                    else if (dayIndex4 >= 7) {
-                        dayIndex4 = dayIndex4 - 7;
+                    function getDayName(index) {
+                        return daysOfWeek[index % 7];
                     }
 
-                    let shortNewDay2 = weekdays[dayIndex2];
-                    let shortNewDay3 = weekdays[dayIndex3];
-                    let shortNewDay4 = weekdays[dayIndex4];
+                    let shortNewDay1 = getDayName(dayIndex);
+                    let shortNewDay2 = getDayName(dayIndex2);
+                    let shortNewDay3 = getDayName(dayIndex3);
+                    let shortNewDay4 = getDayName(dayIndex4);
 
-                    nextDay2.innerHTML = shortNewDay2;
-                    nextDay3.innerHTML = shortNewDay3;
-                    nextDay4.innerHTML = shortNewDay4;
-
-                    console.log(dayIndex)
-                    console.log(dayIndex2)
-                    console.log(dayIndex3)
-                    console.log(dayIndex4)
+                    nextDay1.innerHTML = shortNewDay1
+                    nextDay2.innerHTML = shortNewDay2
+                    nextDay3.innerHTML = shortNewDay3
+                    nextDay4.innerHTML = shortNewDay4
 
                     let nextDayImg1 = document.querySelector(".little-card-1-img")
+
 
                     let ComingData = value.weather[0].main
 
@@ -453,7 +454,7 @@ input.addEventListener("keypress", (event) => {
                     nextDayTemp1.innerHTML = `${((value.main.temp) - 273.15).toFixed(1) / 1} °C`
 
                     let apikey = "5a080ba85d624f87a5c171743240904"
-                    let DaysForecastAPI = fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apikey}&q=${cityName}&days=4&aqi=no&alerts=no`)
+                    let DaysForecastAPI = fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apikey}&q=${cityName}&days=4&aqi=no&alerts=no`)
 
                     DaysForecastAPI.then((response) => {
                         return response.json()
@@ -497,4 +498,5 @@ input.addEventListener("keypress", (event) => {
     }
 
 })
+
 
