@@ -4,6 +4,9 @@ This is a Weather Application made by using HTML, CSS and JavaScript.
 It is responsive to every device and it has built with API's Integration.
 
 
+Website Link:
+https://weatherapp-legit.netlify.app/
+
 
 Properties:
 
@@ -17,6 +20,7 @@ Properties:
  
 5. If the user wants to know the weather of another city, he can also find it by Search through the search bar named (Change Location).
 
+6. You can access the site of this project which is live, Link has been given.
 
 Notice:
 
