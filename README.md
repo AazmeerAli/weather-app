@@ -1,4 +1,5 @@
-# weather-app
+# Weather App
+
 This is a Weather Application made by using HTML, CSS and JavaScript.
 It is responsive to every device and it has built with API's Integration.
 
